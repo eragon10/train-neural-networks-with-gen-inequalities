@@ -1,0 +1,20 @@
+--- blaze-3.7/blaze/math/serialization/VectorSerializer.h	2020-02-23 11:46:35.000000000 +0100
++++ blaze/blaze/math/serialization/VectorSerializer.h	2020-11-17 20:40:34.795502183 +0100
+@@ -843,7 +843,7 @@
+ template< typename Archive  // Type of the archive
+         , typename VT       // Type of the vector
+         , bool TF >         // Transpose flag
+-void serialize( Archive& archive, const Vector<VT,TF>& vec )
++void dumps( Archive& archive, const Vector<VT,TF>& vec )
+ {
+    VectorSerializer().serialize( archive, ~vec );
+ }
+@@ -865,7 +865,7 @@
+ template< typename Archive  // Type of the archive
+         , typename VT       // Type of the vector
+         , bool TF >         // Transpose flag
+-void deserialize( Archive& archive, Vector<VT,TF>& vec )
++void loads( Archive& archive, Vector<VT,TF>& vec )
+ {
+    VectorSerializer().deserialize( archive, ~vec );
+ }
