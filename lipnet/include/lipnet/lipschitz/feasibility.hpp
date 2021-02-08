@@ -47,7 +47,15 @@ namespace lipnet {
 
 
 
-
+    /**
+     * @brief feasibilitycheck_wot_t; Implementation of the feasibility check 
+     *          for eigenvalue problem (not quadratic)
+     * 
+     *          @f[ \det( P - \alpha D ) = 0 \quad \quad P - \alpha D = \chi(\Psi^2,W - \alpha \Delta W)@f]
+     * 
+     * @tparam T numerical value type
+     * @tparam N network topology
+     */
 
     template<typename T, size_t ...N>
     struct feasibilitycheck_wot_t {
@@ -69,6 +77,13 @@ namespace lipnet {
         typedef std::integral_constant<size_t, sizeof... (N)-1> L;
 
 
+        /**
+         * @brief solve eigenvalue problem
+         * @param tparam hyperparamater T of matrix chi
+         * @param var cholesky decomposition of matrix P
+         * @param gradient update direction e.g. matrix D
+         */
+        
         T compute( const tparam_t& tparam, const cholesky_t& var, const variable_t& gradient ) const {
 
             auto B = generate_lipschitz_train_b<T,N...>();
@@ -94,6 +109,16 @@ namespace lipnet {
     };
 
 
+    /**
+     * @brief feasibilitycheck_t; Implementation of the feasibility check 
+     *          for generalized eigenvalue problem (e.g. quadratic eigenvalue problem)
+     * 
+     *              @f[ \det(P - \alpha D + \alpha^2 M) = 0 \quad \quad P - \alpha D + \alpha^2 M
+     *                       = \chi(\Psi^2, W - \alpha \Delta W, T - \alpha Delta T) @f]
+     * 
+     * @tparam T numerical value type
+     * @tparam N network topology
+     */
 
     template<typename T, size_t ...N>
     struct feasibilitycheck_t {
@@ -117,6 +142,14 @@ namespace lipnet {
         typedef std::integral_constant<size_t, sizeof... (N)-1> L;
 
 
+        /**
+         * @brief solve generalized eigenvalue problem
+         * @tparam kondition init matrix N with that value
+         * @param pos current position 
+         * @param gradient update direction
+         * @param rho squared lipschitz constant
+         */
+        
         template<typename kondition = std::ratio<2,1>,
                  typename = typename std::enable_if<kondition::den != 0>::type>
         T compute( const variable_t& pos, const variable_t& gradient, const T rho ) const {

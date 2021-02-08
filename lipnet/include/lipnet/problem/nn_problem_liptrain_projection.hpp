@@ -43,7 +43,6 @@
 #include <lipnet/problem/nn_problem_batch.hpp>
 #include <lipnet/lipschitz/structure.hpp>
 #include <lipnet/lipschitz/topology.hpp>
-#include <lipnet/lipschitz/parameter.hpp>
 
 #include <lipnet/extern/mosek_projection_wot.hpp>
 

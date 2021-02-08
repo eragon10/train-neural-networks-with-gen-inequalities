@@ -182,6 +182,14 @@ namespace lipnet {
 
 
 
+    /**
+     * @brief implementation of the log barrier function
+     *          
+     *          @f[ \mu(W,T) = - \log \det ( \chi(\Psi^2,W,T) )  @f]
+     * 
+     * @tparam T numerical value type
+     * @tparam N network topology
+     */
 
     template<typename T, size_t ...N>
     struct barrierfunction_t {
@@ -204,12 +212,26 @@ namespace lipnet {
         typedef std::integral_constant<size_t, sizeof... (N)-2> LN;
         typedef std::integral_constant<size_t, sizeof... (N)-1> L;
 
+        /// lipschitz constant
         T lipschitz;
 
+        
+        /**
+         * @brief barrierfunction_t; default constructor
+         * @param lipschitz lipschitz constant
+         */ 
+        
         explicit barrierfunction_t( const T lipschitz = 70.0 )
             : lipschitz{ lipschitz } {}
 
 
+        /**
+         * @brief compute gradients 
+         * @param var current position
+         * @param gradient reuturn value gradient
+         * @param gamma hyperparameter of barrier function
+         */
+        
         auto compute( const variable_t& var,  variable_t& gradient, const T& gamma ) const {
 
             cholesky_t L = chol( lipschitz, var );
@@ -240,6 +262,14 @@ namespace lipnet {
             return std::move( L );
         }
 
+        
+        /**
+         * @brief execute cholesky decomposition
+         * @tparam numeric_stability enable/disable numerical offset
+         * @tparam kondition numerical offset
+         * @param lipschitz lipschitz constant
+         * @param var current position
+         */
 
         template<bool numeric_stability = true, typename kondition = std::ratio<1,100>,
                  typename = typename std::enable_if<kondition::den != 0>::type>
@@ -305,6 +335,11 @@ namespace lipnet {
         }
 
 
+        /**
+         * @brief compute inverse_t
+         * @param val cholesky decomposition (e.g L)
+         */
+        
         inline inverse_t inv( const cholesky_t &val ) const {
             typedef matrix_t<at<LN::value+1,N...>(),
                     at<LN::value+1,N...>()> imat;
@@ -337,8 +372,7 @@ namespace lipnet {
                                              - blaze::trans( tmp*K );
             });
 
-            //std::cout << "sadsad: " << std::get<0>(val.D) << "\n";
-
+            
             std::get<0>( res.K ) = - blaze::trans( std::get<1>(res.P) )
                     * std::get<0>(val.L)  / std::get<0>(val.D);
 

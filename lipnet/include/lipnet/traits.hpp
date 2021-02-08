@@ -91,7 +91,7 @@ constexpr inline void for_range(F&& f)
 
 /************************************************************************************
  * 
- * THE FOLLOWING IST COPIED FROM
+ * THE FOLLOWING IS COPIED FROM
  *  https://en.cppreference.com/w/cpp/experimental/is_detected
  * 
  */

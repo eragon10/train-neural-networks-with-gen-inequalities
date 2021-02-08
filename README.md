@@ -1,14 +1,14 @@
 # lipnet
 
-This repository contains the code for bachelor thesis "Training neural networks with generalized inequalities". The thesis was written at [Institute for Systems Theory and Automatic Control (IST)](https://www.ist.uni-stuttgart.de/de) at the [University of Stuttgart](https://www.uni-stuttgart.de/).
+This repository contains the code for bachelor thesis "Training neural networks with generalized inequalities". The thesis was written at the [Institute for Systems Theory and Automatic Control (IST)](https://www.ist.uni-stuttgart.de/de) at the [University of Stuttgart](https://www.uni-stuttgart.de/).
 
 
 ### content
  - train neural networks with lipschitz bound
  - three different methods:
-  - ADMM method
-  - projected gradient descent
-  - barrier method
+   - ADMM method
+   - projected gradient descent
+   - barrier method
  - use MNIST dataset to train neural network with lipschitz bound
 	
 ### dependencies
